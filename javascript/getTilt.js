@@ -15,6 +15,8 @@ $(function(){
         if (userAgent.indexOf("iPhone") > 0 || userAgent.indexOf("iPad") > 0 || userAgent.indexOf("iPod") > 0) {
           x *= -1;
         }
-        $("#tlit").text(x.toString());
+        if (Math.abs(x) > 1.0) {
+            $("#tlit").text(x.toString());
+        }
     }, false)
 });
