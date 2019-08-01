@@ -2,7 +2,8 @@ $(function(){
     window.addEventListener("devicemotion", function(event) {
         var x = 0.0;
         x  = parseFloat(event.acceleration.x);
-      
+        if (isNaN(x)) x = 0.0;
+        console.log("Get Tlit");
         /*
            iosとAndroidとで、向きが逆。
            基準はどちらでも良いが、端末を上から見て、
@@ -15,6 +16,6 @@ $(function(){
         if (userAgent.indexOf("iPhone") > 0 || userAgent.indexOf("iPad") > 0 || userAgent.indexOf("iPod") > 0) {
           x *= -1;
         }
-        $("#tlit").text(x);
+        $("#tlit").text(x.toString());
     })
 });
