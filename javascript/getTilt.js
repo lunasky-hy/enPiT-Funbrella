@@ -1,7 +1,6 @@
 $(function(){
     window.addEventListener("devicemotion", function(event) {
-        var x = 0.0;
-        x  = parseFloat(event.acceleration.x);
+        var x  = parseFloat(event.acceleration.x);
         if (isNaN(x)) x = 0.0;
         console.log("Get Tlit");
         /*
@@ -17,5 +16,5 @@ $(function(){
           x *= -1;
         }
         $("#tlit").text(x.toString());
-    })
+    }, false)
 });
