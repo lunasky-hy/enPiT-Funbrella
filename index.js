@@ -1,4 +1,4 @@
 $(function(){
     console.log("Hi");
-    $("#app").text("Created Text")
+    //$("#app").text("Created Text")
 });
