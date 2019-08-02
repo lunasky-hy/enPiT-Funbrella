@@ -27,30 +27,17 @@ phina.define('MainScene', {
     umbrella.scaleY = 0.5;
     
     this.player = umbrella;
-    
-    
-    
-    var label = Label('Hello, phina.js!').addChildTo(this);
-    label.x = 500;
-    label.y = this.gridY.center();
-    label.fontSize = 32;
-    var shape = CircleShape({fill:'yellow'}).addChildTo(this);
-    shape.setPosition(200, 100);
-    
-
   },
   
     update: function(app){
-    var keyboard =app.keyboard;
-      
-    if(keyboard.getKey('left')){
-    this.player.x -= 8;
-    }
-    
-    if(keyboard.getKey('right')){
-    this.player.x += 8;
-    }
-    
+      var tlit = parseFloat($("#tlit").text());
+
+      if (tlit > 1.5){
+        this.player += 8;
+      }
+      else if (tlit < -1.5){
+        this.player -= 8;
+      }
   }
 });
 
