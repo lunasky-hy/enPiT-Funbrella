@@ -18,8 +18,6 @@ phina.define('MainScene', {
   init: function() {
     this.superInit();
     
-    
-  
     var umbrella = Sprite('umbrella').addChildTo(this);
     umbrella.x = this.gridX.center();
     umbrella.y =800;
