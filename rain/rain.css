@@ -1,0 +1,56 @@
+body{
+    margin:0;
+    padding:0;
+}
+
+/*headの固定部分*/
+header{
+    /*height:40px;*/
+    height:7vh;
+    background-color:#0079E8;
+    color:#fff;
+    font-size:30px;
+    width:100%;
+    text-align:center;
+    line-height:7vh;
+}
+
+#content{
+    height:93vh;
+    background:#E8E0E0;
+    position:relative;
+}
+
+.feet_wind_num{
+    width:25vw;
+    height:4vh;
+    background-color:#fff;
+    font-size:30px;
+    text-align:center;
+    line-height:3.5vh;
+}
+
+#feet_num{
+    position:absolute;
+    left:30px;
+    top:20px;
+}
+
+#wind_speed_num{
+    position:absolute;
+    right:30px;
+    top:20px;
+}
+
+#rain1{
+    position:fixed;
+    right:30vh;
+    top:40vh;
+    color:#1B29AB;
+}
+#rain2{
+    position:fixed;
+    right:20vh;
+    top:60vh;
+    color:#1B29AB;
+}
