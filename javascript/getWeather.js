@@ -8,13 +8,13 @@ $(function(){
             geo_text += "高度精度:" + position.coords.altitudeAccuracy  + "<br />";
             geo_text += "移動方向:" + position.coords.heading + "<br />";
             geo_text += "速度:" + position.coords.speed + "<br />";
-        
+
             var date = new Date(position.timestamp);
             console.log("Get Location");
-        
+
             geo_text += "取得時刻:" + date.toLocaleString() + "\n";
-        
-            $("#weather").html(geo_text);
+
+
 
             getWeather(position.coords.latitude, position.code.longitude);
 
@@ -35,5 +35,19 @@ $(function(){
 });
 
 function getWeather(latitude, longitude){
+  var API_KEY = '7c0c0cdddf04802237c1d345c5de318c'
+  var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude;
+  $.ajax({
+    url:url,
+    dataType: "json",
+    type: 'GET'
+  })
+  .done(function(data){
+    $("#weather").html(data);
+  })
+
+  .fail(function(data){
+    console.log("天気の取得に失敗しました:");
+  });
 
 }
