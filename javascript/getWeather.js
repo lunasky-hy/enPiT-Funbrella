@@ -13,14 +13,13 @@ $(function(){
             console.log("Get Location");
 
             geo_text += "取得時刻:" + date.toLocaleString() + "\n";
+            getWeather(position.coords.latitude, position.coords.longitude);
 
-
-
-            getWeather(position.coords.latitude, position.code.longitude);
 
         }, function(error){
             console.log("現在地の取得に失敗しました:" + error.code);
             $("#weather").text("現在地の取得に失敗");
+            getWeather(36.048783, 140.036734);
         }, {
             "enableHighAccuracy": false ,
             "timeout": 8000 ,
@@ -34,20 +33,20 @@ $(function(){
 
 });
 
-function getWeather(latitude, longitude){
+getWeather = function(latitude, longitude){
   var API_KEY = '7c0c0cdddf04802237c1d345c5de318c'
-  var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude;
+  var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&units=metric&APPID=" + API_KEY;;
   $.ajax({
     url:url,
     dataType: "json",
     type: 'GET'
   })
   .done(function(data){
-    $("#weather").html(data);
+    $("#weather").text(data["weather"][0]["main"]);
+    console.log("天気の取得に成功しました");
   })
-
   .fail(function(data){
-    console.log("天気の取得に失敗しました:");
+    console.log("天気の取得に失敗しました");
   });
 
 }
