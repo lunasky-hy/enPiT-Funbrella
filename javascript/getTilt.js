@@ -1,6 +1,6 @@
 $(function(){
     window.addEventListener("devicemotion", function(event) {
-        var x  = parseFloat(event.acceleration.x);
+        var x  = parseFloat(event.accelerationIncludingGravity.x);
         if (isNaN(x)) x = 0.0;
         console.log("Get Tlit");
         /*
