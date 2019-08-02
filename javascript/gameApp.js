@@ -17,8 +17,6 @@ phina.define('MainScene', {
   
   init: function() {
     this.superInit();
-    
-    
   
     var umbrella = Sprite('umbrella').addChildTo(this);
     umbrella.x = this.gridX.center();
@@ -27,16 +25,13 @@ phina.define('MainScene', {
     umbrella.scaleY = 0.5;
     
     this.player = umbrella;
-    
-    
-    
-    var label = Label('Hello, phina.js!').addChildTo(this);
-    label.x = 500;
-    label.y = this.gridY.center();
-    label.fontSize = 32;
-    var shape = CircleShape({fill:'yellow'}).addChildTo(this);
-    shape.setPosition(200, 100);
-    
+
+    // var label = Label('Hello, phina.js!').addChildTo(this);
+    // label.x = 500;
+    // label.y = this.gridY.center();
+    // label.fontSize = 32;
+    // var shape = CircleShape({fill:'yellow'}).addChildTo(this);
+    // shape.setPosition(200, 100);
 
   },
   
