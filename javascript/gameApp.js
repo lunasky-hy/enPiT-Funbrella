@@ -37,10 +37,10 @@ phina.define('MainScene', {
       this.val.text = tlit;
 
       if (tlit > 1.5){
-        this.player += 8;
+        this.player.x -= 8;
       }
       else if (tlit < -1.5){
-        this.player -= 8;
+        this.player.x += 8;
       }
   }
 });
