@@ -1,6 +1,5 @@
 $(function(){
     if (navigator.geolocation) {
-        alert("この端末では位置情報が取得できます");
         navigator.geolocation.getCurrentPosition(function(position){
             var geo_text = "緯度:" + position.coords.latitude + "<br />";
             geo_text += "経度:" + position.coords.longitude + "<br />";
@@ -16,6 +15,9 @@ $(function(){
             geo_text += "取得時刻:" + date.toLocaleString() + "\n";
         
             $("#weather").html(geo_text);
+
+            getWeather(position.coords.latitude, position.code.longitude);
+
         }, function(error){
             console.log("現在地の取得に失敗しました:" + error.code);
             $("#weather").text("現在地の取得に失敗");
@@ -31,3 +33,7 @@ $(function(){
     }
 
 });
+
+function getWeather(latitude, longitude){
+
+}
