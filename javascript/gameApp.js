@@ -25,10 +25,16 @@ phina.define('MainScene', {
     umbrella.scaleY = 0.5;
     
     this.player = umbrella;
+
+    this.val = Label('0').addChildTo(this);
+    this.val.x = 20;
+    this.val.y = 30;
   },
   
     update: function(app){
       var tlit = parseFloat($("#tlit").text());
+
+      this.val.text = tlit;
 
       if (tlit > 1.5){
         this.player += 8;
