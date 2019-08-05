@@ -1,11 +1,37 @@
-window.onload=function(){
+$(function(){
   document.querySelector('#start').addEventListener('click',function(e){
     e.preventDefault();
     var count = 6;
     var id = setInterval(function(){
       count--;
-      document.querySelector('#timer').textContent=count;
-      if(count <= 0) clearInterval(id);
+      $('#timer').text(count);
+      if(count <= 0) {
+        clearInterval(id);
+        transition()
+      }
     },1000);
   });
+})
+
+function transition(){
+  var weatherid = $('#weather').text();
+  var wind_val = parseFloat($("#wind").text());
+  var url = "/" + convertUrlParam(weatherid) + "/" + convertUrlParam(weatherid) + ".html";
+  document.location.href = url + "?wind=" + Math.floor(wind_val).toString();
+}
+
+function convertUrlParam(id_text){
+  var id = parseInt(id_text);
+  if (200 <= id && id <= 623){
+    return "rain";
+  }
+  else if(800 <= id && id <= 803){
+    return "sunny";
+  }
+  else if(id == 804){
+    return "cloud";
+  }
+  else{
+    return "default";
+  }
 }

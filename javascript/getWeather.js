@@ -42,7 +42,8 @@ getWeather = function(latitude, longitude){
     type: 'GET'
   })
   .done(function(data){
-    $("#weather").text(data["weather"][0]["main"]);
+    $("#weather").text(data["weather"][0]["id"]);
+    $("#wind").text(data["wind"]["speed"]);
     console.log("天気の取得に成功しました");
   })
   .fail(function(data){
