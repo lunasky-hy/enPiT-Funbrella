@@ -35,7 +35,7 @@ $(function(){
 
 getWeather = function(latitude, longitude){
   var API_KEY = '7c0c0cdddf04802237c1d345c5de318c'
-  var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&units=metric&APPID=" + API_KEY;;
+  var url = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&units=metric&APPID=" + API_KEY;;
   $.ajax({
     url:url,
     dataType: "json",
