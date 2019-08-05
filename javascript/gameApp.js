@@ -32,9 +32,6 @@ var HIT_RADIUS = 30;
 var life = 1;
 var time;
 
-
-
-
 phina.define('MainScene', {
   superClass: 'CanvasScene',
 
@@ -85,10 +82,10 @@ phina.define('MainScene', {
     var self = this;
     self.hitTestEnemyPlayer();
 
-        if(life === 0) {
-             console.log("hit");
-             app.replaceScene(EndScene(time));
-         }
+    if(this.life === 0) {
+        console.log("hit");
+        app.replaceScene(EndScene(time));
+    }
 
     this.TimeIsScore();
 
@@ -110,8 +107,6 @@ phina.define('MainScene', {
           // 当たってるか判定
           if(Collision.testCircleCircle(c1,c2)){
               self.decreaseLife();
-
-              //lifeが0になったら、終了
               
           }
 
