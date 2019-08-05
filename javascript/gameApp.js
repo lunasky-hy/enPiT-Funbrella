@@ -51,9 +51,12 @@ phina.define('MainScene', {
       //thuner生成のための軸を生成
       this.timer = 0;
 
+      //時間を計測するための準備
       var start_time = new Date();
       this.start_time = start_time;
 
+      //最初のスコアを１に設定
+      this.life = 1;
 
   },
 
@@ -74,7 +77,11 @@ phina.define('MainScene', {
     self.hitTestEnemyPlayer();
 
     this.TimeIsScore();
+
+    //ライフの表示
+    this.dispLife();
   },
+
     //ディスプレイ傘と雷の当たり判定を円でするメソッド
     hitTestEnemyPlayer : function(){
       var player = this.player;
@@ -86,7 +93,7 @@ phina.define('MainScene', {
 
           // 当たってるか判定
           if(Collision.testCircleCircle(c1,c2)){
-              life--;
+              self.decreaseLife();
 
               //lifeが0になったら、終了
               if(life === 0) {
@@ -110,12 +117,35 @@ phina.define('MainScene', {
         this.player.x += 8;
       }
     },
+
     //時間をスコアに変換
     TimeIsScore :function(){
       var now = new Date();
       var time = Math.floor((now - this.start_time)/1000);
       $("#feet_num").text("スコア "+time.toString());
+    },
+
+    //ライフを増やす
+    addLife: function(){
+      this.life += 1;
+    },
+
+    //ライフを減らす
+    decreaseLife: function(){
+      if(this.life > 0) {
+        this.life -= 1;
+      }
+      else {
+        this.life = 0;
+      }
+    },
+
+    //ライフの表示
+    dispLife: function(){
+      $("#wind_speed_num").text(this.life.toString());
     }
+
+
 });
 
 //thunderのオブジェクトclass 生成
