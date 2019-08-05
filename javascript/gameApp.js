@@ -31,10 +31,10 @@ var life = 1;
 
 phina.define('MainScene', {
   superClass: 'CanvasScene',
-  
+
   init: function() {
     this.superInit();
-  
+
     // 傘を生成
     var umbrella = Sprite('umbrella').addChildTo(this);
     umbrella.x = this.gridX.center();
@@ -44,29 +44,24 @@ phina.define('MainScene', {
       umbrella.width = UMBRELLA_WIDTH;
       umbrella.padding =0;
     this.player = umbrella;
-    
+
     //thunder  group の生成
       this.thunderGroup = phina.display.CanvasElement().addChildTo(this);
-      
+
       //thuner生成のための軸を生成
       this.timer = 0;
-    
+
+      var start_time = new Date();
+      this.start_time = start_time;
+
 
   },
-  
+
     update: function(app){
       // キーボードでの操作
-    var tlit = parseFloat($("#tlit").text());
-    var padding = this.player.width / 4;
-
-    if ((tlit > 1.5 || app.keyboard.getKey('left')) && 0 + padding < this.player.x ){
-      this.player.x -= 8;
-    }
-    else if ((tlit < -1.5 || app.keyboard.getKey('right')) && 640 - padding > this.player.x){
-      this.player.x += 8;
-    }
+      this.controllPlayer(app);
     ++this.timer;
-    
+
     //thunderの生成,  30秒ごとにobjectを生成
     if(this.timer %30 === 0) {
         var thunder = Thunder().addChildTo(this.thunderGroup);
@@ -78,6 +73,7 @@ phina.define('MainScene', {
     var self = this;
     self.hitTestEnemyPlayer();
 
+    this.TimeIsScore();
   },
     //ディスプレイ傘と雷の当たり判定を円でするメソッド
     hitTestEnemyPlayer : function(){
@@ -87,11 +83,11 @@ phina.define('MainScene', {
       this.thunderGroup.children.each(function(thunder){
           var c1 = Circle(player.x, player.y, HIT_RADIUS);
           var c2 = Circle(thunder.x, thunder.y , HIT_RADIUS);
-            
+
           // 当たってるか判定
           if(Collision.testCircleCircle(c1,c2)){
               life--;
-              
+
               //lifeが0になったら、終了
               if(life === 0) {
                   console.log("hit");
@@ -100,23 +96,42 @@ phina.define('MainScene', {
 
       })
 
+    },
+
+    //プレイヤーを操作する関数
+    controllPlayer :function(app){
+      var tlit = parseFloat($("#tlit").text());
+      var padding = this.player.width / 4;
+
+      if ((tlit > 1.5 || app.keyboard.getKey('left')) && 0 + padding < this.player.x ){
+        this.player.x -= 8;
+      }
+      else if ((tlit < -1.5 || app.keyboard.getKey('right')) && 640 - padding > this.player.x){
+        this.player.x += 8;
+      }
+    },
+    //時間をスコアに変換
+    TimeIsScore :function(){
+      var now = new Date();
+      var time = Math.floor((now - this.start_time)/1000);
+      $("#feet_num").text("スコア "+time.toString());
     }
 });
 
 //thunderのオブジェクトclass 生成
 phina.define("Thunder",{
     superClass: 'phina.display.Sprite',
-    
+
     init: function(){
         this.superInit("thunder");
         this.width =  THUNDER_WIDTH;
         this.height = THUNDER_HEIGHT;
         this.speed  = 7;
     },
-    
+
     update: function(){
         this.y += this.speed;
-        
+
 }
 });
 
@@ -128,6 +143,6 @@ phina.main(function() {
     startLabel: 'main',
     assets: ASSETS,
   });
-  
+
   app.run();
 });
