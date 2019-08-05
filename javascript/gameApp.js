@@ -21,10 +21,16 @@ var SCREEN_HEIGHT = 800;
 var UMBRELLA_WIDTH = 70;
 var UMBRELLA_HEIGHT = 80;
 
+//スコア
+var RESULT_PARAM ={
+  score: 0
+};
+
 //円判定の円
 var HIT_RADIUS = 30;
 //傘のライフ
 var life = 1;
+var time;
 
 
 
@@ -73,10 +79,17 @@ phina.define('MainScene', {
     var self = this;
     self.hitTestEnemyPlayer();
 
+        if(life === 0) {
+             console.log("hit");
+             app.replaceScene(EndScene(time));
+         }
+
     this.TimeIsScore();
   },
     //ディスプレイ傘と雷の当たり判定を円でするメソッド
-    hitTestEnemyPlayer : function(){
+    hitTestEnemyPlayer : function()
+
+    {
       var player = this.player;
       var self = this;
 
@@ -89,9 +102,7 @@ phina.define('MainScene', {
               life--;
 
               //lifeが0になったら、終了
-              if(life === 0) {
-                  console.log("hit");
-              }
+              
           }
 
       })
@@ -113,7 +124,7 @@ phina.define('MainScene', {
     //時間をスコアに変換
     TimeIsScore :function(){
       var now = new Date();
-      var time = Math.floor((now - this.start_time)/1000);
+      time = Math.floor((now - this.start_time)/1000);
       $("#feet_num").text("スコア "+time.toString());
     }
 });
@@ -133,6 +144,18 @@ phina.define("Thunder",{
         this.y += this.speed;
 
 }
+});
+
+
+//ゲーム終了時の画面表示
+phina.define("EndScene",{
+  superClass: "phina.game.ResultScene",
+
+  init: function(time){
+
+    RESULT_PARAM.score = "あなたのスコア" + time.toString();
+    this.superInit(RESULT_PARAM);
+  },
 });
 
 
