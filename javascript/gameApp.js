@@ -24,13 +24,12 @@ phina.define('MainScene', {
   superClass: 'CanvasScene',
   
   init: function() {
-    this.superInit(
-       );
+    this.superInit();
   
     // 傘を生成
     var umbrella = Sprite('umbrella').addChildTo(this);
     umbrella.x = this.gridX.center();
-    umbrella.y =800;
+    umbrella.y = 800;
     umbrella.scaleX = 0.3;
     umbrella.scaleY = 0.3;
     
@@ -47,24 +46,23 @@ phina.define('MainScene', {
   
     update: function(app){
       // キーボードでの操作
-    var keyboard =app.keyboard;
-      
-    if(keyboard.getKey('left')){
-    this.player.x -= 8;
-    }
-    
-    if(keyboard.getKey('right')){
-    this.player.x += 8;
-    }
+    var tlit = parseFloat($("#tlit").text());
+    var padding = this.player.width / 4;
 
+    if ((tlit > 1.5 || app.keyboard.getKey('left')) && 0 + padding < this.player.x ){
+      this.player.x -= 8;
+    }
+    else if ((tlit < -1.5 || app.keyboard.getKey('right')) && 640 - padding > this.player.x){
+      this.player.x += 8;
+    }
     ++this.timer;
     
     //thunderの生成
-        if(this.timer %30 === 0) {
-            var thunder = Thunder().addChildTo(this.thunderGroup);
-            thunder.x = Math.randint(0, SCREEN_WIDTH);
-            thunder.y = 0 - SCREEN_HEIGHT;
-        }
+    if(this.timer %30 === 0) {
+        var thunder = Thunder().addChildTo(this.thunderGroup);
+        thunder.x = Math.randint(0, SCREEN_WIDTH);
+        thunder.y = 0 - SCREEN_HEIGHT;
+    }
   }
 });
 
