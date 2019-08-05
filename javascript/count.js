@@ -15,8 +15,9 @@ $(function(){
 
 function transition(){
   var weatherid = $('#weather').text();
+  var wind_val = parseFloat($("#wind").text());
   var url = "/" + convertUrlParam(weatherid) + "/" + convertUrlParam(weatherid) + ".html";
-  document.location.href = url;
+  document.location.href = url + "?wind=" + Math.floor(wind_val).toString();
 }
 
 function convertUrlParam(id_text){
