@@ -24,10 +24,10 @@ function convertUrlParam(id_text){
   if (200 <= id && id <= 623){
     return "rain";
   }
-  elseif(800 <= id && id <= 803){
+  else if(800 <= id && id <= 803){
     return "sunny";
   }
-  elseif(id == 804){
+  else if(id == 804){
     return "cloud";
   }
   else{
