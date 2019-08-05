@@ -58,6 +58,9 @@ phina.define('MainScene', {
       //最初のスコアを１に設定
       this.life = 1;
 
+      var wind = this.getParam("wind");
+      $("#wind_speed").text(wind);
+
   },
 
     update: function(app){
@@ -143,8 +146,18 @@ phina.define('MainScene', {
     //ライフの表示
     dispLife: function(){
       $("#wind_speed_num").text(this.life.toString());
-    }
+    },
 
+    //風
+    getParam: function (name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
 
 });
 
