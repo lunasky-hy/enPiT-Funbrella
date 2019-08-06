@@ -21,10 +21,6 @@ var SCREEN_HEIGHT = 800;
 var UMBRELLA_WIDTH = 70;
 var UMBRELLA_HEIGHT = 80;
 
-//ライフ傘のサイズ
-var LIFE_UMBRELLA_WIDTH = 30;
-var LIFE_UMBRELLA_HEIGHT = 50;
-
 //スコア
 var RESULT_PARAM ={
   score: 0
@@ -32,8 +28,6 @@ var RESULT_PARAM ={
 
 //円判定の円
 var HIT_RADIUS = 30;
-//ライフ傘の円判定の円
-var HIT_RADIUS2 = 15;
 //傘のライフ
 var life = 1;
 var time;
@@ -54,10 +48,6 @@ phina.define('MainScene', {
       umbrella.width = UMBRELLA_WIDTH;
       umbrella.padding =0;
     this.player = umbrella;
-
-    //ライフ傘グループの生成
-      this.life_umbrella_Group = phina.display.CanvasElement().addChildTo(this);
-      // var life_umbrella = Sprite(‘umbrella’).addChildTo(this);
 
     //thunder  group の生成
       this.thunderGroup = phina.display.CanvasElement().addChildTo(this);
@@ -95,17 +85,9 @@ phina.define('MainScene', {
         thunder.y = 0 - SCREEN_HEIGHT;
     }
 
-        //ライフ傘の生成
-        if(this.timer % 200 === 0){
-            var life_umbrella = Life_umbrella().addChildTo(this.life_umbrella_Group);
-            life_umbrella.x =  Math.randint(0, SCREEN_WIDTH);
-            life_umbrella.y = 0 - SCREEN_HEIGHT;
-        }
-
     //当たり判定をする
     var self = this;
     self.hitTestEnemyPlayer();
-    self.hitTestLifeUmbrella();
 
     if(this.life === 0) {
         console.log("hit");
@@ -139,37 +121,15 @@ phina.define('MainScene', {
 
     },
 
-
-    //ディスプレイ傘とライフ傘の当たり判定を円でするメソッド
-    hitTestLifeUmbrella : function()
-
-    {
-        var player = this.player;
-        var self = this;
-
-        this.life_umbrella_Group.children.each(function(lifeumbrella){
-            var c1 = Circle(player.x, player.y, HIT_RADIUS2);
-            var c2 = Circle(lifeumbrella.x, lifeumbrella.y , HIT_RADIUS2);
-
-            // 当たってるか判定
-            if(Collision.testCircleCircle(c1,c2)){
-                self.addLife();
-
-            }
-
-        })
-
-    },
-
     //プレイヤーを操作する関数
     controllPlayer :function(app){
       var tlit = parseFloat($("#tlit").text());
       var padding = this.player.width / 4;
 
-      if ((tlit > 1.5 || app.keyboard.getKey('left')) && 0 + padding < this.player.x ){
+      if ((tlit > 0.8 || app.keyboard.getKey('left')) && 0 + padding < this.player.x ){
         this.player.x -= 8;
       }
-      else if ((tlit < -1.5 || app.keyboard.getKey('right')) && 640 - padding > this.player.x){
+      else if ((tlit < -0.8 || app.keyboard.getKey('right')) && 640 - padding > this.player.x){
         this.player.x += 8;
       }
     },
@@ -212,22 +172,6 @@ phina.define('MainScene', {
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-});
-
-//ライフ傘オブジェクト生成
-phina.define("Life_umbrella", {
-    superClass: 'phina.display.Sprite',
-
-    init : function() {
-        this.superInit("umbrella");
-        this.width = LIFE_UMBRELLA_WIDTH;
-        this.height = LIFE_UMBRELLA_HEIGHT;
-        this.speed = 7;
-    },
-
-    update: function(){
-        this.y += this.speed * 2;
-    }
 });
 
 //thunderのオブジェクトclass 生成
@@ -275,7 +219,13 @@ phina.main(function() {
   var app = GameApp({
     startLabel: 'main',
     assets: ASSETS,
+    domElement: document.getElementById("phinaCanvas"),
+    width:640,
+    height:960
   });
+//app.backgroundColor = "rgba(0, 0, 255, 0)"
+document.getElementById("phinaCanvas").getContext('2d').globalAlpha = 0;
 
   app.run();
+
 });
