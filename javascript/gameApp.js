@@ -9,7 +9,8 @@ var ASSETS = {
         //'umbrella': 'https://www.illust-box.jp/db_img/sozai/00010/108866/watermark.jpg',
 
      'umbrella': 'https://kohacu.com/wp-content/uploads/2018/05/kohacu.com_000102_20170830-300x300.png',
-      'thunder':'https://www.sozailab.jp/db_img/sozai/13085/9e5baae2f2a6c96a62655fc3bdd8d10c.png'
+      // 'thunder':'https://www.sozailab.jp/db_img/sozai/13085/9e5baae2f2a6c96a62655fc3bdd8d10c.png'
+      'thunder' : 'https://chicodeza.com/wordpress/wp-content/uploads/kaminari-illust2.png'
   },
 
   sound: {
@@ -24,7 +25,7 @@ var THUNDER_WIDTH = 100;
 var THUNDER_HEIGHT = 110;
 var SCREEN_WIDTH = 640;
 var SCREEN_HEIGHT = 800;
-var UMBRELLA_WIDTH = 70;
+var UMBRELLA_WIDTH = 75;
 var UMBRELLA_HEIGHT = 80;
 
 //ライフ傘のサイズ
@@ -40,7 +41,7 @@ var RESULT_PARAM ={
 };
 
 //円判定の円
-var HIT_RADIUS = 30;
+var HIT_RADIUS = 35;
 //ライフ傘の円判定の円
 var HIT_RADIUS2 = 25;
 //傘のライフ
@@ -104,7 +105,7 @@ phina.define('MainScene', {
 
     //thunderの生成,  30秒ごとにobjectを生成
     if(this.timer %30 === 0) {
-      for(var i=0, n=(this.timer/300); i<= n; ++i){
+      for(var i = 0, n = (this.timer/300); i <= n; ++i){
         var thunder = Thunder().addChildTo(this.thunderGroup);
         thunder.x = Math.randint(0, SCREEN_WIDTH);
         thunder.y = i*70 - SCREEN_HEIGHT;
