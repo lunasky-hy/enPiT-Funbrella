@@ -15,15 +15,15 @@ var ASSETS = {
 };
 
 // the size of kaminari
-var THUNDER_WIDTH = 100;
-var THUNDER_HEIGHT = 110;
+var THUNDER_WIDTH = 64;
+var THUNDER_HEIGHT = 74;
 var SCREEN_WIDTH = 500;
 var SCREEN_HEIGHT = 800;
 var UMBRELLA_WIDTH = 75;
 var UMBRELLA_HEIGHT = 80;
 
 //ライフ傘のサイズ
-var LIFE_UMBRELLA_WIDTH = 30;
+var LIFE_UMBRELLA_WIDTH = 40;
 var LIFE_UMBRELLA_HEIGHT = 50;
 
 //当たり判定 
