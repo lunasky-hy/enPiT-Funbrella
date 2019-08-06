@@ -25,6 +25,9 @@ var UMBRELLA_HEIGHT = 80;
 var LIFE_UMBRELLA_WIDTH = 30;
 var LIFE_UMBRELLA_HEIGHT = 50;
 
+//当たり判定 
+var bool_enemy = true;
+var bool_life_umbrella = false;
 //スコア
 var RESULT_PARAM ={
   score: 0
@@ -93,6 +96,7 @@ phina.define('MainScene', {
         var thunder = Thunder().addChildTo(this.thunderGroup);
         thunder.x = Math.randint(0, SCREEN_WIDTH);
         thunder.y = 0 - SCREEN_HEIGHT;
+        bool_enemy = true;
     }
 
         //ライフ傘の生成
@@ -100,13 +104,19 @@ phina.define('MainScene', {
             var life_umbrella = Life_umbrella().addChildTo(this.life_umbrella_Group);
             life_umbrella.x =  Math.randint(0, SCREEN_WIDTH);
             life_umbrella.y = 0 - SCREEN_HEIGHT;
+            bool_life_umbrella = true;
         }
 
     //当たり判定をする
     var self = this;
-    self.hitTestEnemyPlayer();
-    self.hitTestLifeUmbrella();
-
+        
+        if(bool_enemy) {
+            self.hitTestEnemyPlayer();
+        }
+        
+        if(bool_life_umbrella) {
+            self.hitTestLifeUmbrella();
+        }
     if(this.life === 0) {
         console.log("hit");
         app.replaceScene(EndScene(time));
@@ -132,7 +142,8 @@ phina.define('MainScene', {
           // 当たってるか判定
           if(Collision.testCircleCircle(c1,c2)){
               self.decreaseLife();
-
+              bool_enemy = false;
+              thunder.remove();
           }
 
       })
@@ -153,8 +164,9 @@ phina.define('MainScene', {
 
             // 当たってるか判定
             if(Collision.testCircleCircle(c1,c2)){
-                self.addLife();
-
+                self.addLife(); 
+                bool_life_umbrella = false;
+                lifeumbrella.remove();
             }
 
         })
