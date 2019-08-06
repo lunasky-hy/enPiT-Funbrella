@@ -7,18 +7,26 @@ phina.globalize();
 var ASSETS = {
   image:{
         //'umbrella': 'https://www.illust-box.jp/db_img/sozai/00010/108866/watermark.jpg',
-
      'umbrella': 'https://kohacu.com/wp-content/uploads/2018/05/kohacu.com_000102_20170830-300x300.png',
       // 'thunder':'https://www.sozailab.jp/db_img/sozai/13085/9e5baae2f2a6c96a62655fc3bdd8d10c.png'
-      'thunder' : 'https://chicodeza.com/wordpress/wp-content/uploads/kaminari-illust2.png'
+      'thunder' : 'https://chicodeza.com/wordpress/wp-content/uploads/kaminari-illust2.png',
+      'bg':$("#bg_path").text()
+  },
+
+  sound: {
+    //"bgm": "https://rawgit.com/alkn203/phina_js_tips/master/assets/sounds/se_maoudamashii_chime14.mp3",
+    "bgm": "https://raw.githubusercontent.com/omatoro/phina.js_tutorial_avoidgame/master/rsc/Comical01_Koya_short2.mp3",
+    //"bgm": "../bgm/rain_bgm.mp3",
   },
 };
 
 // the size of kaminari
 var THUNDER_WIDTH = 64;
 var THUNDER_HEIGHT = 74;
-var SCREEN_WIDTH = 500;
-var SCREEN_HEIGHT = 800;
+var THUNDER_WIDTH = 100;
+var THUNDER_HEIGHT = 110;
+var SCREEN_WIDTH = 640;
+var SCREEN_HEIGHT = 960;
 var UMBRELLA_WIDTH = 75;
 var UMBRELLA_HEIGHT = 80;
 
@@ -37,7 +45,7 @@ var RESULT_PARAM ={
 //円判定の円
 var HIT_RADIUS = 35;
 //ライフ傘の円判定の円
-var HIT_RADIUS2 = 15;
+var HIT_RADIUS2 = 25;
 //傘のライフ
 var life = 1;
 var time;
@@ -49,6 +57,13 @@ phina.define('MainScene', {
   init: function() {
     this.superInit();
 
+    var bg = Sprite('bg').addChildTo(this).setPosition(this.gridX.center(), this.gridY.center()+60);
+    bg.width = SCREEN_WIDTH;
+    bg.height = SCREEN_HEIGHT;
+    
+    this.bgm = phina.asset.AssetManager.get("sound", "bgm");
+    this.bgm.setLoop(true).play();
+
     // 傘を生成
     var umbrella = Sprite('umbrella').addChildTo(this);
     umbrella.x = this.gridX.center();
@@ -56,7 +71,7 @@ phina.define('MainScene', {
 
       umbrella.height = UMBRELLA_HEIGHT;
       umbrella.width = UMBRELLA_WIDTH;
-      umbrella.padding =0;
+      umbrella.padding = 0;
     this.player = umbrella;
 
     //ライフ傘グループの生成
@@ -73,18 +88,39 @@ phina.define('MainScene', {
       var start_time = new Date();
       this.start_time = start_time;
 
-      //最初のスコアを１に設定
+      //最初のライフを１に設定
       this.life = 1;
 
       var wind = this.getParam("wind");
+      if(!wind){
+        wind="0";
+      }
       if(start_time.getSeconds()%2 == 0){
         wind_move = parseInt(wind)*2;
       }
       else{
         wind_move = -1 * parseInt(wind)*2;
       }
-      $("#wind_speed").text(wind);
 
+      var band = RectangleShape({width:SCREEN_WIDTH, height:60}).addChildTo(this);
+      band.x = SCREEN_WIDTH/2;
+      band.y = 30;
+      band.strokeWidth = -1;
+      band.fill = 'skyblue';
+
+      this.scoreLabel = Label({
+        text: 'SCORE: 0'
+      }).addChildTo(band);
+      this.scoreLabel.x = -160;
+
+      this.lifeLabel = Label({
+        text: 'LIFE: 0'
+      }).addChildTo(band);
+      this.lifeLabel.x = 160;
+
+      this.windLabel = Label("wind: " + wind + "m/s").addChildTo(this);
+      this.windLabel.x = SCREEN_WIDTH/2;
+      this.windLabel.y = 90;
   },
 
     update: function(app){
@@ -94,10 +130,12 @@ phina.define('MainScene', {
 
     //thunderの生成,  30秒ごとにobjectを生成
     if(this.timer %30 === 0) {
+      for(var i = 0, n = (this.timer/300); i <= n; ++i){
         var thunder = Thunder().addChildTo(this.thunderGroup);
         thunder.x = Math.randint(0, SCREEN_WIDTH);
-        thunder.y = 0 - SCREEN_HEIGHT;
+        thunder.y = i*70 - SCREEN_HEIGHT;
         bool_enemy = true;
+      }
     }
 
         //ライフ傘の生成
@@ -191,7 +229,10 @@ phina.define('MainScene', {
     TimeIsScore :function(){
       var now = new Date();
       time = Math.floor((now - this.start_time)/1000);
-      $("#feet_num").text("スコア "+time.toString());
+      this.scoreLabel.text = "SCORE: "+time.toString();
+      if(time == 5){
+        this.windLabel.text = "";
+      }
     },
 
     //ライフを増やす
@@ -211,7 +252,7 @@ phina.define('MainScene', {
 
     //ライフの表示
     dispLife: function(){
-      $("#wind_speed_num").text(this.life.toString());
+      this.lifeLabel.text = "LIFE: " + this.life.toString();
     },
 
     //風
