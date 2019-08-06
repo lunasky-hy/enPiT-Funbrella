@@ -88,9 +88,13 @@ phina.define('MainScene', {
 
       this.scoreLabel = Label({
         text: 'SCORE: 0'
-
       }).addChildTo(band);
       this.scoreLabel.x = -160;
+
+      this.lifeLabel = Label({
+        text: 'LIFE: 0'
+      }).addChildTo(band);
+      this.lifeLabel.x = 160;
   },
 
     update: function(app){
@@ -208,7 +212,7 @@ phina.define('MainScene', {
 
     //ライフの表示
     dispLife: function(){
-      $("#wind_speed_num").text(this.life.toString());
+      this.lifeLabel.text = "LIFE: " + this.life.toString();
     },
 
     //風
