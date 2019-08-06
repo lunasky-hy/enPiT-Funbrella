@@ -31,6 +31,7 @@ var HIT_RADIUS = 30;
 //傘のライフ
 var life = 1;
 var time;
+var wind_move = 0;
 
 phina.define('MainScene', {
   superClass: 'CanvasScene',
@@ -62,6 +63,12 @@ phina.define('MainScene', {
       this.life = 1;
 
       var wind = this.getParam("wind");
+      if(start_time.getSeconds()%2 == 0){
+        wind_move = parseInt(wind)*2;
+      }
+      else{
+        wind_move = -1 * parseInt(wind)*2;
+      }
       $("#wind_speed").text(wind);
 
   },
@@ -107,7 +114,7 @@ phina.define('MainScene', {
           // 当たってるか判定
           if(Collision.testCircleCircle(c1,c2)){
               self.decreaseLife();
-              
+
           }
 
       })
@@ -176,11 +183,20 @@ phina.define("Thunder",{
         this.width =  THUNDER_WIDTH;
         this.height = THUNDER_HEIGHT;
         this.speed  = 7;
+        this.reverseflag = false;
     },
 
     update: function(){
         this.y += this.speed;
-
+        if(this.reverseflag){
+          this.x += wind_move;
+        }
+        else{
+          this.x -= wind_move;
+        }
+        if(this.x < 0 || this.x > 640){
+          this.reverseflag = !this.reverseflag;
+        }
 }
 });
 
