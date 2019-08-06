@@ -7,34 +7,45 @@ phina.globalize();
 var ASSETS = {
   image:{
         //'umbrella': 'https://www.illust-box.jp/db_img/sozai/00010/108866/watermark.jpg',
-
      'umbrella': 'https://kohacu.com/wp-content/uploads/2018/05/kohacu.com_000102_20170830-300x300.png',
-      'thunder':'https://www.sozailab.jp/db_img/sozai/13085/9e5baae2f2a6c96a62655fc3bdd8d10c.png',
+      // 'thunder':'https://www.sozailab.jp/db_img/sozai/13085/9e5baae2f2a6c96a62655fc3bdd8d10c.png'
+      'thunder' : 'https://chicodeza.com/wordpress/wp-content/uploads/kaminari-illust2.png',
       'bg':$("#bg_path").text()
+  },
+
+  sound: {
+    //"bgm": "https://rawgit.com/alkn203/phina_js_tips/master/assets/sounds/se_maoudamashii_chime14.mp3",
+    "bgm": "https://raw.githubusercontent.com/omatoro/phina.js_tutorial_avoidgame/master/rsc/Comical01_Koya_short2.mp3",
+    //"bgm": "../bgm/rain_bgm.mp3",
   },
 };
 
 // the size of kaminari
+var THUNDER_WIDTH = 64;
+var THUNDER_HEIGHT = 74;
 var THUNDER_WIDTH = 100;
 var THUNDER_HEIGHT = 110;
 var SCREEN_WIDTH = 640;
 var SCREEN_HEIGHT = 960;
-var UMBRELLA_WIDTH = 70;
+var UMBRELLA_WIDTH = 75;
 var UMBRELLA_HEIGHT = 80;
 
 //ライフ傘のサイズ
-var LIFE_UMBRELLA_WIDTH = 30;
+var LIFE_UMBRELLA_WIDTH = 40;
 var LIFE_UMBRELLA_HEIGHT = 50;
 
+//当たり判定 
+var bool_enemy = true;
+var bool_life_umbrella = false;
 //スコア
 var RESULT_PARAM ={
   score: 0
 };
 
 //円判定の円
-var HIT_RADIUS = 30;
+var HIT_RADIUS = 35;
 //ライフ傘の円判定の円
-var HIT_RADIUS2 = 15;
+var HIT_RADIUS2 = 25;
 //傘のライフ
 var life = 1;
 var time;
@@ -49,6 +60,9 @@ phina.define('MainScene', {
     var bg = Sprite('bg').addChildTo(this).setPosition(this.gridX.center(), this.gridY.center()+60);
     bg.width = SCREEN_WIDTH;
     bg.height = SCREEN_HEIGHT;
+    
+    this.bgm = phina.asset.AssetManager.get("sound", "bgm");
+    this.bgm.setLoop(true).play();
 
     // 傘を生成
     var umbrella = Sprite('umbrella').addChildTo(this);
@@ -116,9 +130,12 @@ phina.define('MainScene', {
 
     //thunderの生成,  30秒ごとにobjectを生成
     if(this.timer %30 === 0) {
+      for(var i = 0, n = (this.timer/300); i <= n; ++i){
         var thunder = Thunder().addChildTo(this.thunderGroup);
         thunder.x = Math.randint(0, SCREEN_WIDTH);
-        thunder.y = 0 - SCREEN_HEIGHT;
+        thunder.y = i*70 - SCREEN_HEIGHT;
+        bool_enemy = true;
+      }
     }
 
         //ライフ傘の生成
@@ -126,13 +143,19 @@ phina.define('MainScene', {
             var life_umbrella = Life_umbrella().addChildTo(this.life_umbrella_Group);
             life_umbrella.x =  Math.randint(0, SCREEN_WIDTH);
             life_umbrella.y = 0 - SCREEN_HEIGHT;
+            bool_life_umbrella = true;
         }
 
     //当たり判定をする
     var self = this;
-    self.hitTestEnemyPlayer();
-    self.hitTestLifeUmbrella();
-
+        
+        if(bool_enemy) {
+            self.hitTestEnemyPlayer();
+        }
+        
+        if(bool_life_umbrella) {
+            self.hitTestLifeUmbrella();
+        }
     if(this.life === 0) {
         console.log("hit");
         app.replaceScene(EndScene(time));
@@ -158,7 +181,8 @@ phina.define('MainScene', {
           // 当たってるか判定
           if(Collision.testCircleCircle(c1,c2)){
               self.decreaseLife();
-
+              bool_enemy = false;
+              thunder.remove();
           }
 
       })
@@ -179,8 +203,9 @@ phina.define('MainScene', {
 
             // 当たってるか判定
             if(Collision.testCircleCircle(c1,c2)){
-                self.addLife();
-
+                self.addLife(); 
+                bool_life_umbrella = false;
+                lifeumbrella.remove();
             }
 
         })
