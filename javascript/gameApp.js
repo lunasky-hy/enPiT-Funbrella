@@ -12,12 +12,18 @@ var ASSETS = {
       // 'thunder':'https://www.sozailab.jp/db_img/sozai/13085/9e5baae2f2a6c96a62655fc3bdd8d10c.png'
       'thunder' : 'https://chicodeza.com/wordpress/wp-content/uploads/kaminari-illust2.png'
   },
+
+  sound: {
+    //"bgm": "https://rawgit.com/alkn203/phina_js_tips/master/assets/sounds/se_maoudamashii_chime14.mp3",
+    "bgm": "https://raw.githubusercontent.com/omatoro/phina.js_tutorial_avoidgame/master/rsc/Comical01_Koya_short2.mp3",
+    //"bgm": "../bgm/rain_bgm.mp3",
+  },
 };
 
 // the size of kaminari
 var THUNDER_WIDTH = 100;
 var THUNDER_HEIGHT = 110;
-var SCREEN_WIDTH = 500;
+var SCREEN_WIDTH = 640;
 var SCREEN_HEIGHT = 800;
 var UMBRELLA_WIDTH = 75;
 var UMBRELLA_HEIGHT = 80;
@@ -37,7 +43,7 @@ var RESULT_PARAM ={
 //円判定の円
 var HIT_RADIUS = 35;
 //ライフ傘の円判定の円
-var HIT_RADIUS2 = 15;
+var HIT_RADIUS2 = 25;
 //傘のライフ
 var life = 1;
 var time;
@@ -48,6 +54,11 @@ phina.define('MainScene', {
 
   init: function() {
     this.superInit();
+
+
+    // BGM再生
+    this.bgm = phina.asset.AssetManager.get("sound", "bgm");
+    this.bgm.setLoop(true).play();
 
     // 傘を生成
     var umbrella = Sprite('umbrella').addChildTo(this);
@@ -97,7 +108,7 @@ phina.define('MainScene', {
       for(var i = 0, n = (this.timer/300); i <= n; ++i){
         var thunder = Thunder().addChildTo(this.thunderGroup);
         thunder.x = Math.randint(0, SCREEN_WIDTH);
-        thunder.y = 0 - SCREEN_HEIGHT;
+        thunder.y = i*70 - SCREEN_HEIGHT;
         bool_enemy = true;
       }
     }
