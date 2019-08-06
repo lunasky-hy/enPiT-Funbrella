@@ -16,8 +16,8 @@ var ASSETS = {
 // the size of kaminari
 var THUNDER_WIDTH = 100;
 var THUNDER_HEIGHT = 110;
-var SCREEN_WIDTH = 500;
-var SCREEN_HEIGHT = 800;
+var SCREEN_WIDTH = 640;
+var SCREEN_HEIGHT = 960;
 var UMBRELLA_WIDTH = 70;
 var UMBRELLA_HEIGHT = 80;
 
@@ -69,7 +69,7 @@ phina.define('MainScene', {
       var start_time = new Date();
       this.start_time = start_time;
 
-      //最初のスコアを１に設定
+      //最初のライフを１に設定
       this.life = 1;
 
       var wind = this.getParam("wind");
@@ -80,7 +80,17 @@ phina.define('MainScene', {
         wind_move = -1 * parseInt(wind)*2;
       }
       $("#wind_speed").text(wind);
+      var band = RectangleShape({width:SCREEN_WIDTH, height:60}).addChildTo(this);
+      band.x = SCREEN_WIDTH/2;
+      band.y = 30;
+      band.strokeWidth = -1;
+      band.fill = 'skyblue';
 
+      this.scoreLabel = Label({
+        text: 'SCORE: 0'
+
+      }).addChildTo(band);
+      this.scoreLabel.x = -160;
   },
 
     update: function(app){
@@ -178,7 +188,7 @@ phina.define('MainScene', {
     TimeIsScore :function(){
       var now = new Date();
       time = Math.floor((now - this.start_time)/1000);
-      $("#feet_num").text("スコア "+time.toString());
+      this.scoreLabel.text = "SCORE: "+time.toString();
     },
 
     //ライフを増やす
