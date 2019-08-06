@@ -73,13 +73,15 @@ phina.define('MainScene', {
       this.life = 1;
 
       var wind = this.getParam("wind");
+      if(!wind){
+        wind="0";
+      }
       if(start_time.getSeconds()%2 == 0){
         wind_move = parseInt(wind)*2;
       }
       else{
         wind_move = -1 * parseInt(wind)*2;
       }
-      $("#wind_speed").text(wind);
 
       var band = RectangleShape({width:SCREEN_WIDTH, height:60}).addChildTo(this);
       band.x = SCREEN_WIDTH/2;
