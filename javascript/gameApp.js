@@ -217,10 +217,10 @@ phina.define('MainScene', {
       var tlit = parseFloat($("#tlit").text());
       var padding = this.player.width / 4;
 
-      if ((tlit > 0.8 || app.keyboard.getKey('left')) && 0 + padding < this.player.x ){
+      if ((tlit > 0.5 || app.keyboard.getKey('left')) && 0 + padding < this.player.x ){
         this.player.x -= 8;
       }
-      else if ((tlit < -0.8 || app.keyboard.getKey('right')) && 640 - padding > this.player.x){
+      else if ((tlit < -0.5 || app.keyboard.getKey('right')) && 640 - padding > this.player.x){
         this.player.x += 8;
       }
     },
