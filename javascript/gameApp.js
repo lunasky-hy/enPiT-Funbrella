@@ -80,6 +80,7 @@ phina.define('MainScene', {
         wind_move = -1 * parseInt(wind)*2;
       }
       $("#wind_speed").text(wind);
+
       var band = RectangleShape({width:SCREEN_WIDTH, height:60}).addChildTo(this);
       band.x = SCREEN_WIDTH/2;
       band.y = 30;
@@ -95,6 +96,10 @@ phina.define('MainScene', {
         text: 'LIFE: 0'
       }).addChildTo(band);
       this.lifeLabel.x = 160;
+
+      this.windLabel = Label("wind: " + wind + "m/s").addChildTo(this);
+      this.windLabel.x = SCREEN_WIDTH/2;
+      this.windLabel.y = 90;
   },
 
     update: function(app){
@@ -193,6 +198,9 @@ phina.define('MainScene', {
       var now = new Date();
       time = Math.floor((now - this.start_time)/1000);
       this.scoreLabel.text = "SCORE: "+time.toString();
+      if(time == 5){
+        this.windLabel.text = "";
+      }
     },
 
     //ライフを増やす
