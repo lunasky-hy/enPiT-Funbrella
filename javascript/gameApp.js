@@ -9,7 +9,8 @@ var ASSETS = {
         //'umbrella': 'https://www.illust-box.jp/db_img/sozai/00010/108866/watermark.jpg',
 
      'umbrella': 'https://kohacu.com/wp-content/uploads/2018/05/kohacu.com_000102_20170830-300x300.png',
-      'thunder':'https://www.sozailab.jp/db_img/sozai/13085/9e5baae2f2a6c96a62655fc3bdd8d10c.png'
+      'thunder':'https://www.sozailab.jp/db_img/sozai/13085/9e5baae2f2a6c96a62655fc3bdd8d10c.png',
+      'bg':$("#bg_path").text()
   },
 };
 
@@ -45,6 +46,10 @@ phina.define('MainScene', {
   init: function() {
     this.superInit();
 
+    var bg = Sprite('bg').addChildTo(this).setPosition(this.gridX.center(), this.gridY.center()+60);
+    bg.width = SCREEN_WIDTH;
+    bg.height = SCREEN_HEIGHT;
+
     // 傘を生成
     var umbrella = Sprite('umbrella').addChildTo(this);
     umbrella.x = this.gridX.center();
@@ -52,7 +57,7 @@ phina.define('MainScene', {
 
       umbrella.height = UMBRELLA_HEIGHT;
       umbrella.width = UMBRELLA_WIDTH;
-      umbrella.padding =0;
+      umbrella.padding = 0;
     this.player = umbrella;
 
     //ライフ傘グループの生成
