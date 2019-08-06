@@ -93,10 +93,12 @@ phina.define('MainScene', {
 
     //thunderの生成,  30秒ごとにobjectを生成
     if(this.timer %30 === 0) {
+      for(var i = 0, n = (this.timer/300); i <= n; ++i){
         var thunder = Thunder().addChildTo(this.thunderGroup);
         thunder.x = Math.randint(0, SCREEN_WIDTH);
         thunder.y = 0 - SCREEN_HEIGHT;
         bool_enemy = true;
+      }
     }
 
         //ライフ傘の生成
